@@ -798,7 +798,11 @@ static int nrc_wim_event_handler(struct nrc *nw,
 		ieee80211_csa_finish(vif);
 		break;
 	case WIM_EVENT_CH_SWITCH:
+#if KERNEL_VERSION(6, 7, 0) <= NRC_TARGET_KERNEL_VERSION
+		ieee80211_chswitch_done(vif, true, 0);
+#else
 		ieee80211_chswitch_done(vif, true);
+#endif
 		break;
 	case WIM_EVENT_LBT_ENABLED:
 		nrc_dbg(NRC_DBG_HIF, "lbt enabled");
